@@ -44,6 +44,7 @@ function deleteEvent() {
     })
       .then((res) => res.json())
       .then((res) => {
+        // extract errors if available
         const response =
           res as paths['/v1/api/events/{id}']['delete']['responses']['400']['content']['application/json']
 
@@ -69,14 +70,18 @@ function deleteEvent() {
 }
 
 function updateEvent() {
-  if (selectedEvent.value === null) {
+  if (selectedEvent.value === null || loading.value) {
     return
   }
 
-  const path: keyof paths = '/v1/api/events/{id}'
+  // set loading indicator
+  loading.value = true
 
+  // prepare paths
+  const path: keyof paths = '/v1/api/events/{id}'
   const url = import.meta.env.VITE_API_URL
 
+  // send request
   fetch(url + path.replace('{id}', selectedEvent.value.id), {
     method: 'PATCH',
     headers: {
@@ -86,6 +91,7 @@ function updateEvent() {
   })
     .then((res) => res.json())
     .then((res) => {
+      // extract errors if available
       const response =
         res as paths['/v1/api/events/{id}']['patch']['responses']['400']['content']['application/json']
 
@@ -110,10 +116,15 @@ function updateEvent() {
 }
 
 function createEvent() {
-  const path: keyof paths = '/v1/api/events'
+  // set loading indicator
+  if (loading.value) return
+  loading.value = true
 
+  // prepare paths
+  const path: keyof paths = '/v1/api/events'
   const url = import.meta.env.VITE_API_URL
 
+  // send request
   fetch(url + path, {
     method: 'POST',
     headers: {
@@ -123,6 +134,7 @@ function createEvent() {
   })
     .then((res) => res.json())
     .then((res) => {
+      // extract errors if available
       const response =
         res as paths['/v1/api/events']['post']['responses']['400']['content']['application/json']
 
