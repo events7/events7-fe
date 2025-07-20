@@ -11,6 +11,7 @@ const i18n = createI18n({
   messages: {
     en: {
       error: 'Something went wrong. Try again later.',
+      error403: 'You do not have permission to do this. Check your credentials or try again.',
       loading: 'Getting data...',
       delete: 'Delete',
       cancel: 'Cancel',
@@ -35,6 +36,8 @@ const i18n = createI18n({
     },
     si: {
       error: 'Prišlo je do napake. Poskusite znova.',
+      error403:
+        'Nimate dovoljenja za to. Preverite vaše uporabniške podatke ali poskusite ponovno.',
       loading: 'Pridobivanje podatkov...',
       delete: 'Izbriši',
       cancel: 'Prekliči',

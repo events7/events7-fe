@@ -42,7 +42,19 @@ function deleteEvent() {
     fetch(url + path.replace('{id}', selectedEvent.value.id), {
       method: 'DELETE',
     })
-      .then(() => {
+      .then((res) => res.json())
+      .then((res) => {
+        const response =
+          res as paths['/v1/api/events/{id}']['delete']['responses']['400']['content']['application/json']
+
+        if (response.error && response.message && response.statusCode == 400) {
+          // instead of toast we will just alert
+          alert(response.message[0])
+
+          loading.value = false
+          return
+        }
+
         showEditModal.value = false
         loading.value = false
         eventsKey.value += 1 // Increment key to force reload Events
@@ -72,7 +84,19 @@ function updateEvent() {
     },
     body: JSON.stringify(selectedEvent.value),
   })
-    .then(() => {
+    .then((res) => res.json())
+    .then((res) => {
+      const response =
+        res as paths['/v1/api/events/{id}']['patch']['responses']['400']['content']['application/json']
+
+      if (response.error && response.message && response.statusCode == 400) {
+        // instead of toast we will just alert
+        alert(response.message[0])
+
+        loading.value = false
+        return
+      }
+
       showEditModal.value = false
       loading.value = false
       eventsKey.value += 1 // Increment key to force reload Events
@@ -97,7 +121,25 @@ function createEvent() {
     },
     body: JSON.stringify(createEventDto.value),
   })
-    .then(() => {
+    .then((res) => res.json())
+    .then((res) => {
+      const response =
+        res as paths['/v1/api/events']['post']['responses']['400']['content']['application/json']
+
+      if (response.error && response.message && response.statusCode == 400) {
+        // instead of toast we will just alert
+        alert(response.message[0])
+
+        loading.value = false
+        return
+      } else if (response.error && response.message && response.statusCode == 403) {
+        // instead of toast we will just alert
+        alert(t('error403'))
+
+        loading.value = false
+        return
+      }
+
       showCreateModal.value = false
       loading.value = false
       eventsKey.value += 1 // Increment key to force reload Events

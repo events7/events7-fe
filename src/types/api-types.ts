@@ -75,6 +75,16 @@ export interface components {
       /** Format: date-time */
       updatedAt: string
     }
+    BadRequestResponseType: {
+      statusCode: number
+      message: string[]
+      error: string
+    }
+    ForbiddenResponseType: {
+      statusCode: number
+      message: string
+      error: string
+    }
     UpdateEventDto: {
       name: string
       description: string
@@ -82,14 +92,8 @@ export interface components {
       type: 'crosspromo' | 'liveops' | 'app' | 'ads'
       priority: number
     }
-    UpdateResultExtended: {
-      affected: number
-      raw: Record<string, never>
-      generatedMaps: string[]
-    }
-    DeleteResultExtended: {
-      affected: number
-      raw: Record<string, never>
+    SuccessResponseType: {
+      success: boolean
     }
   }
   responses: never
@@ -149,12 +153,31 @@ export interface operations {
       }
     }
     responses: {
+      /** @description Event created successfully. Returns the created event */
       201: {
         headers: {
           [name: string]: unknown
         }
         content: {
           'application/json': components['schemas']['Event']
+        }
+      }
+      /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['BadRequestResponseType']
+        }
+      }
+      /** @description Forbidden resource. Try again later or check with adminstrators that you have correct permissions */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ForbiddenResponseType']
         }
       }
     }
@@ -170,12 +193,22 @@ export interface operations {
     }
     requestBody?: never
     responses: {
+      /** @description Event found. Returns the event */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
           'application/json': components['schemas']['Event']
+        }
+      }
+      /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['BadRequestResponseType']
         }
       }
     }
@@ -191,12 +224,22 @@ export interface operations {
     }
     requestBody?: never
     responses: {
+      /** @description Returns true if deleted successfully */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['DeleteResultExtended']
+          'application/json': components['schemas']['SuccessResponseType']
+        }
+      }
+      /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['BadRequestResponseType']
         }
       }
     }
@@ -216,12 +259,22 @@ export interface operations {
       }
     }
     responses: {
+      /** @description Returns true if updated successfully */
       200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['UpdateResultExtended']
+          'application/json': components['schemas']['SuccessResponseType']
+        }
+      }
+      /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['BadRequestResponseType']
         }
       }
     }
