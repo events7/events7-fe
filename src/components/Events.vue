@@ -34,7 +34,7 @@
         </thead>
 
         <tbody>
-          <tr v-for="event in events" :key="event.id" @click="showAlert">
+          <tr v-for="event in events" :key="event.id" @click="$emit('event-selected', event)">
             <td>{{ formatDate(event.createdAt) }}</td>
             <td>{{ event.name }}</td>
             <td>{{ event.description }}</td>
@@ -74,9 +74,6 @@ export default {
         hour: '2-digit',
         minute: '2-digit',
       })
-    },
-    showAlert() {
-      alert('this.message')
     },
   },
   computed: { capitalize: () => (value: string) => value.toLocaleUpperCase() },

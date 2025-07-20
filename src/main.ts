@@ -14,6 +14,8 @@ const i18n = createI18n({
       loading: 'Getting data...',
       events: {
         events: 'Events',
+        deleteEvent: 'Delete event',
+        areYouSure: 'Are you sure you want to delete this event?',
         noEvents: 'No events found.',
         table: {
           createdAt: 'Created At',
@@ -30,6 +32,8 @@ const i18n = createI18n({
 
       events: {
         events: 'Dogodki',
+        deleteEvent: 'Izbriši dogodek',
+        areYouSure: 'Ste prepričani, da želite izbrisati dogodek?',
         noEvents: 'Ni dogodkov.',
         table: {
           createdAt: 'Ustvarjen',
