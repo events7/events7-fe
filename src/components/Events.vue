@@ -12,6 +12,14 @@
       {{ error }}
     </div>
 
+    <!-- NO EVENTS INDICATOR -->
+    <div
+      class="w-full flex flex-col items-center justify-center min-h-[50vh]"
+      v-else-if="events.length === 0"
+    >
+      {{ $t('events.noEvents') }}
+    </div>
+
     <!-- EVENTS LISTED -->
     <div class="min-h-[50vh]" v-else>
       <table>

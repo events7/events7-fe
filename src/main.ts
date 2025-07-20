@@ -14,6 +14,7 @@ const i18n = createI18n({
       loading: 'Getting data...',
       events: {
         events: 'Events',
+        noEvents: 'No events found.',
         table: {
           createdAt: 'Created At',
           name: 'Name',
@@ -26,8 +27,10 @@ const i18n = createI18n({
     si: {
       error: 'Prišlo je do napake. Poskusite znova.',
       loading: 'Pridobivanje podatkov...',
+
       events: {
         events: 'Dogodki',
+        noEvents: 'Ni dogodkov.',
         table: {
           createdAt: 'Ustvarjen',
           name: 'Ime',
