@@ -90,7 +90,14 @@ export default {
   <!-- EVENTS LISTED -->
   <!-- EVENTS LISTED -->
   <!-- EVENTS LISTED -->
-  <div class="w-full flex flex-col items-center justify-center" v-else>
+  <div v-else>
+    <div class="flex justify-end mb-4">
+      <button class="primary border" @click="$emit('create-event')">
+        {{ $t('events.addNewEvent') }}
+      </button>
+    </div>
+  </div>
+  <div class="w-full flex flex-col items-center justify-center">
     <table class="w-full">
       <thead>
         <tr>
@@ -130,7 +137,7 @@ table {
 
 th,
 td {
-  padding: 8px;
+  padding: 1rem;
   text-align: center;
   border-bottom: 1px solid #ddd;
   cursor: pointer;

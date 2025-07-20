@@ -123,19 +123,6 @@ function createEvent() {
     <!-- TITLE -->
     <h2 class="mt-[50px] mb-[30px] text-center text-2xl">{{ $t('events.events') }}</h2>
 
-    <div class="flex justify-end mb-4">
-      <button
-        class="primary border"
-        @click="
-          () => {
-            createEventDto = { name: '', description: '', type: 'crosspromo', priority: 0 }
-            showCreateModal = true
-          }
-        "
-      >
-        {{ $t('events.addNewEvent') }}
-      </button>
-    </div>
     <!-- EVENTS -->
     <!-- EVENTS -->
     <!-- EVENTS -->
