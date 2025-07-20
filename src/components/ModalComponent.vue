@@ -5,7 +5,8 @@
 <!-- TEMPLATE -->
 <template>
   <div class="modal-backdrop" @click.self="allowBackdrop && close">
-    <div class="modal-content">
+    <div class="modal-content relative">
+      <div class="cursor-pointer absolute top-[1.5rem] right-[1.5rem]" @click="close">X</div>
       <slot />
 
       <div class="mt-4"></div>
