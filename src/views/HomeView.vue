@@ -21,8 +21,8 @@ const selectedEvent: Ref<
 const createEventDto: Ref<
   paths['/v1/api/events']['post']['requestBody']['content']['application/json']
 > = ref({
-  name: 'dada',
-  description: 'bebe',
+  name: '',
+  description: '',
   type: 'ads',
   priority: 1,
 })
@@ -192,7 +192,7 @@ function createEvent() {
       "
       @create-event="
         () => {
-          createEventDto = { name: 'dada', description: 'bebe', type: 'ads', priority: 1 }
+          createEventDto = { name: '', description: '', type: 'ads', priority: 1 }
           showCreateModal = true
         }
       "
@@ -216,16 +216,16 @@ function createEvent() {
           <!-- add labelrs -->
 
           <label for="name">{{ $t('events.table.name') }}</label>
-          <input type="text" id="name" v-model="selectedEvent.name" />
+          <input required type="text" id="name" v-model="selectedEvent.name" />
 
-          <label for="description">{{ $t('events.table.description') }}</label>
+          <label required for="description">{{ $t('events.table.description') }}</label>
           <input type="text" id="description" v-model="selectedEvent.description" />
 
-          <label for="priority">{{ $t('events.table.priority') }}</label>
-          <input type="number" id="priority" v-model="selectedEvent.priority" />
+          <label required for="priority">{{ $t('events.table.priority') }}</label>
+          <input min="1" max="10" type="number" id="priority" v-model="selectedEvent.priority" />
 
           <label for="type">{{ $t('events.table.type') }}</label>
-          <select id="type" v-model="selectedEvent.type">
+          <select required id="type" v-model="selectedEvent.type">
             <option value="crosspromo">crosspromo</option>
             <option value="liveops">liveops</option>
             <option value="app">app</option>

@@ -18,3 +18,7 @@ button.primary {
 button.terciary {
   @apply hover:bg-[#dcdcdc] text-[#818181] py-2 px-4 rounded;
 }
+
+button:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
