@@ -38,7 +38,7 @@
             <td>{{ formatDate(event.createdAt) }}</td>
             <td>{{ event.name }}</td>
             <td>{{ event.description }}</td>
-            <td>{{ event.type }}</td>
+            <td>{{ capitalize(event.type) }}</td>
             <td>{{ event.priority }}</td>
           </tr>
         </tbody>
@@ -79,6 +79,7 @@ export default {
       alert('this.message')
     },
   },
+  computed: { capitalize: () => (value: string) => value.toLocaleUpperCase() },
   mounted() {
     const path: keyof paths = '/v1/api/events'
 
