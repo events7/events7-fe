@@ -10,18 +10,16 @@ const selectedEvent: Ref<
 > = ref(null)
 
 const loading = ref(false)
+const eventsKey = ref(0) // Key to force reload
 
 function deleteEvent() {
   const confirm = window.confirm('Are you sure you want to delete this event?')
 
   if (confirm && selectedEvent.value) {
-    // delete event
     loading.value = true
 
-    console.log(selectedEvent.value)
     const path: keyof paths = '/v1/api/events/{id}'
 
-    // get url from enviroment
     const url = import.meta.env.VITE_API_URL
     fetch(url + path.replace('{id}', selectedEvent.value.id), {
       method: 'DELETE',
@@ -29,8 +27,7 @@ function deleteEvent() {
       .then(() => {
         showModal.value = false
         loading.value = false
-        // force reload
-        location.reload()
+        eventsKey.value += 1 // Increment key to force reload Events
       })
       .catch((error) => {
         console.error(error)
@@ -43,6 +40,7 @@ function deleteEvent() {
 <template>
   <main>
     <Events
+      :key="eventsKey"
       @event-selected="
         (
           event: paths['/v1/api/events/{id}']['get']['responses']['200']['content']['application/json'],
@@ -84,8 +82,6 @@ function deleteEvent() {
 </template>
 
 <style scoped>
-/* Style inputs */
-
 input[type='text'],
 input[type='number'],
 select,
