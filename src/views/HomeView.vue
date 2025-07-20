@@ -4,18 +4,28 @@
 <!-- SCRIPT SETUP -->
 <!-- SCRIPT SETUP -->
 <script setup lang="ts">
-import EventEditModal from '@/components/EventEditModal.vue'
+import { default as ModalComponent } from '@/components/ModalComponent.vue'
 import type { paths } from '@/types/api-types'
 import { ref, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import Events from '../components/Events.vue'
+import Events from '../components/EventsComponent.vue'
 
 const { t } = useI18n()
 
-const showModal = ref(false)
+const showEditModal = ref(false)
+const showCreateModal = ref(false)
 const selectedEvent: Ref<
   paths['/v1/api/events/{id}']['get']['responses']['200']['content']['application/json'] | null
 > = ref(null)
+
+const createEventDto: Ref<
+  paths['/v1/api/events']['post']['requestBody']['content']['application/json']
+> = ref({
+  name: '',
+  description: '',
+  type: 'crosspromo',
+  priority: 0,
+})
 
 const loading = ref(false)
 const eventsKey = ref(0) // Key to force reload
@@ -33,7 +43,7 @@ function deleteEvent() {
       method: 'DELETE',
     })
       .then(() => {
-        showModal.value = false
+        showEditModal.value = false
         loading.value = false
         eventsKey.value += 1 // Increment key to force reload Events
       })
@@ -63,7 +73,32 @@ function updateEvent() {
     body: JSON.stringify(selectedEvent.value),
   })
     .then(() => {
-      showModal.value = false
+      showEditModal.value = false
+      loading.value = false
+      eventsKey.value += 1 // Increment key to force reload Events
+    })
+    .catch((error) => {
+      console.error(error)
+      loading.value = false
+      // instead of toast lets just alert
+      alert(t('error'))
+    })
+}
+
+function createEvent() {
+  const path: keyof paths = '/v1/api/events'
+
+  const url = import.meta.env.VITE_API_URL
+
+  fetch(url + path, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(createEventDto.value),
+  })
+    .then(() => {
+      showCreateModal.value = false
       loading.value = false
       eventsKey.value += 1 // Increment key to force reload Events
     })
@@ -82,7 +117,25 @@ function updateEvent() {
 <!-- TEMPLATE -->
 <!-- TEMPLATE -->
 <template>
-  <main>
+  <main class="container mx-auto p-2">
+    <!-- TITLE -->
+    <!-- TITLE -->
+    <!-- TITLE -->
+    <h2 class="mt-[50px] mb-[30px] text-center text-2xl">{{ $t('events.events') }}</h2>
+
+    <div class="flex justify-end mb-4">
+      <button
+        class="primary border"
+        @click="
+          () => {
+            createEventDto = { name: '', description: '', type: 'crosspromo', priority: 0 }
+            showCreateModal = true
+          }
+        "
+      >
+        {{ $t('events.addNewEvent') }}
+      </button>
+    </div>
     <!-- EVENTS -->
     <!-- EVENTS -->
     <!-- EVENTS -->
@@ -93,18 +146,24 @@ function updateEvent() {
           event: paths['/v1/api/events/{id}']['get']['responses']['200']['content']['application/json'],
         ) => {
           selectedEvent = { ...event }
-          showModal = true
+          showEditModal = true
+        }
+      "
+      @create-event="
+        () => {
+          createEventDto = { name: '', description: '', type: 'crosspromo', priority: 0 }
+          showCreateModal = true
         }
       "
     />
 
-    <!-- MODAL -->
-    <!-- MODAL -->
-    <!-- MODAL -->
-    <EventEditModal
+    <!-- EVENT EDIT MODAL -->
+    <!-- EVENT EDIT MODAL -->
+    <!-- EVENT EDIT MODAL -->
+    <ModalComponent
       :allowBackdrop="false"
-      v-if="showModal && selectedEvent"
-      @close="showModal = false"
+      v-if="showEditModal && selectedEvent"
+      @close="showEditModal = false"
       @save="updateEvent"
       :loading="loading"
     >
@@ -138,7 +197,44 @@ function updateEvent() {
           </div>
         </div>
       </div>
-    </EventEditModal>
+    </ModalComponent>
+
+    <!-- EVENT EDIT MODAL -->
+    <!-- EVENT EDIT MODAL -->
+    <!-- EVENT EDIT MODAL -->
+    <ModalComponent
+      :allowBackdrop="false"
+      v-if="showCreateModal && createEventDto"
+      @close="showCreateModal = false"
+      @save="createEvent"
+      :loading="loading"
+    >
+      <div>
+        <div class="mb-2">
+          <h2 class="text-center">{{ $t('events.newEvent') }}</h2>
+        </div>
+        <div class="flex flex-col">
+          <!-- add labelrs -->
+
+          <label for="name">{{ $t('events.table.name') }}</label>
+          <input type="text" id="name" v-model="createEventDto.name" />
+
+          <label for="description">{{ $t('events.table.description') }}</label>
+          <input type="text" id="description" v-model="createEventDto.description" />
+
+          <label for="priority">{{ $t('events.table.priority') }}</label>
+          <input type="number" id="priority" v-model="createEventDto.priority" />
+
+          <label for="type">{{ $t('events.table.type') }}</label>
+          <select id="type" v-model="createEventDto.type">
+            <option value="crosspromo">crosspromo</option>
+            <option value="liveops">liveops</option>
+            <option value="app">app</option>
+            <option value="ads">ads</option>
+          </select>
+        </div>
+      </div>
+    </ModalComponent>
   </main>
 </template>
 

@@ -6,7 +6,7 @@ import App from './App.vue'
 import router from './router'
 
 const i18n = createI18n({
-  locale: 'si',
+  locale: 'en',
   fallbackLocale: 'en',
   messages: {
     en: {
@@ -19,6 +19,8 @@ const i18n = createI18n({
       events: {
         events: 'Events',
         deleteEvent: 'Delete event',
+        addNewEvent: 'Add new event',
+        newEvent: 'New event',
         editEvent: 'Edit event',
         areYouSure: 'Are you sure you want to delete this event?',
         noEvents: 'No events found.',
@@ -41,6 +43,8 @@ const i18n = createI18n({
       events: {
         events: 'Dogodki',
         deleteEvent: 'Izbriši dogodek',
+        addNewEvent: 'Dodaj nov dogodek',
+        newEvent: 'Nov dogodek',
         editEvent: 'Uredi dogodek',
         areYouSure: 'Ste prepričani, da želite izbrisati dogodek?',
         noEvents: 'Ni dogodkov.',
@@ -49,7 +53,7 @@ const i18n = createI18n({
           name: 'Ime',
           description: 'Opis',
           type: 'Vrsta',
-          priority: 'Prioritet',
+          priority: 'Prioriteta',
         },
       },
     },

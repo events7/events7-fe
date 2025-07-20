@@ -26,7 +26,7 @@
 <!-- SCRIPT -->
 <script lang="ts">
 export default {
-  name: 'EventEditModal',
+  name: 'ModalComponent',
 }
 </script>
 
@@ -80,6 +80,7 @@ function save() {
   background: white;
   padding: 2rem;
   border-radius: 8px;
-  min-width: 300px;
+  min-width: 400px;
+  max-width: 99vw;
 }
 </style>
