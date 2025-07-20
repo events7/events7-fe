@@ -96,31 +96,32 @@ export default {
         {{ $t('events.addNewEvent') }}
       </button>
     </div>
-  </div>
-  <div class="w-full flex flex-col items-center justify-center">
-    <table class="w-full">
-      <thead>
-        <tr>
-          <th>{{ $t('events.table.createdAt') }}</th>
-          <th>{{ $t('events.table.name') }}</th>
-          <th>{{ $t('events.table.description') }}</th>
-          <th>{{ $t('events.table.type') }}</th>
-          <th>{{ $t('events.table.priority') }}</th>
-        </tr>
-      </thead>
 
-      <tbody>
-        <tr v-for="event in events" :key="event.id" @click="$emit('event-selected', event)">
-          <td>{{ formatDate(event.createdAt) }}</td>
-          <td>{{ event.name }}</td>
-          <td>
-            {{ event.description }}
-          </td>
-          <td>{{ capitalize(event.type) }}</td>
-          <td class="!text-center">{{ event.priority }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="w-full flex flex-col items-center justify-center">
+      <table class="w-full">
+        <thead>
+          <tr>
+            <th>{{ $t('events.table.createdAt') }}</th>
+            <th>{{ $t('events.table.name') }}</th>
+            <th>{{ $t('events.table.description') }}</th>
+            <th>{{ $t('events.table.type') }}</th>
+            <th>{{ $t('events.table.priority') }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="event in events" :key="event.id" @click="$emit('event-selected', event)">
+            <td>{{ formatDate(event.createdAt) }}</td>
+            <td>{{ event.name }}</td>
+            <td>
+              {{ event.description }}
+            </td>
+            <td>{{ capitalize(event.type) }}</td>
+            <td class="!text-center">{{ event.priority }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 

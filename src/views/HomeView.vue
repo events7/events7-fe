@@ -21,10 +21,10 @@ const selectedEvent: Ref<
 const createEventDto: Ref<
   paths['/v1/api/events']['post']['requestBody']['content']['application/json']
 > = ref({
-  name: '',
-  description: '',
-  type: 'crosspromo',
-  priority: 0,
+  name: 'dada',
+  description: 'bebe',
+  type: 'ads',
+  priority: 1,
 })
 
 const loading = ref(false)
@@ -180,7 +180,7 @@ function createEvent() {
       "
       @create-event="
         () => {
-          createEventDto = { name: '', description: '', type: 'crosspromo', priority: 0 }
+          createEventDto = { name: 'dada', description: 'bebe', type: 'ads', priority: 1 }
           showCreateModal = true
         }
       "
