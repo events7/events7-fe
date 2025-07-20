@@ -1,19 +1,5 @@
 # events7-fe
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
 ## Project Setup
 
 ```sh
@@ -23,8 +9,10 @@ npm install
 ### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+npm run start:dev
 ```
+
+Visit the link from the console!
 
 ### Type-Check, Compile and Minify for Production
 
@@ -54,8 +42,23 @@ npm run build
 npm run test:e2e
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Generate API types
 
-```sh
-npm run lint
+To generate API types run
+
+```bash
+# generate types from docs.json openApi schema
+npm run generate:types
 ```
+
+## Assumptions
+
+1. ...
+
+## Stay in touch
+
+- Author - [Goran Tubic](https://github.com/orangeGoran)
+
+## License
+
+This project is MIT.
