@@ -1,5 +1,9 @@
 # events7-fe
 
+## App sketches
+
+App sketches where prepared using Excalidraw. Check and visit it here: [https://excalidraw.com/#room=6cc309affd237a5d9391,QwrN_5QHKwhf45BxIdHWFA](https://excalidraw.com/#room=6cc309affd237a5d9391,QwrN_5QHKwhf45BxIdHWFA).
+
 ## Project Setup
 
 ```sh
