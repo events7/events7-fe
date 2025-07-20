@@ -1,26 +1,67 @@
+<!-- TEMPLATE -->
+<!-- TEMPLATE -->
+<!-- TEMPLATE -->
+<!-- TEMPLATE -->
+<!-- TEMPLATE -->
 <template>
   <div class="modal-backdrop" @click.self="allowBackdrop && close">
     <div class="modal-content">
       <slot />
-      <button @click="close">Close</button>
+
+      <div class="mt-4"></div>
+
+      <div class="flex justify-between">
+        <button :disabled="loading" class="terciary" @click="close">{{ $t('cancel') }}</button>
+
+        <button :disabled="loading" class="primary" @click="save">{{ $t('save') }}</button>
+      </div>
     </div>
   </div>
 </template>
 
+<!-- SCRIPT -->
+<!-- SCRIPT -->
+<!-- SCRIPT -->
+<!-- SCRIPT -->
+<!-- SCRIPT -->
+<script lang="ts">
+export default {
+  name: 'EventEditModal',
+}
+</script>
+
+<!-- SCRIPT SETUP -->
+<!-- SCRIPT SETUP -->
+<!-- SCRIPT SETUP -->
+<!-- SCRIPT SETUP -->
+<!-- SCRIPT SETUP -->
 <script lang="ts" setup>
 defineProps({
+  loading: {
+    type: Boolean,
+    default: false,
+  },
   allowBackdrop: {
     type: Boolean,
     default: true,
   },
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'save'])
 function close() {
   emit('close')
 }
+
+function save() {
+  emit('save')
+}
 </script>
 
+<!-- STYLES -->
+<!-- STYLES -->
+<!-- STYLES -->
+<!-- STYLES -->
+<!-- STYLES -->
 <style scoped>
 .modal-backdrop {
   position: fixed;

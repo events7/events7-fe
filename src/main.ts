@@ -12,9 +12,14 @@ const i18n = createI18n({
     en: {
       error: 'Something went wrong. Try again later.',
       loading: 'Getting data...',
+      delete: 'Delete',
+      cancel: 'Cancel',
+      save: 'Save',
+
       events: {
         events: 'Events',
         deleteEvent: 'Delete event',
+        editEvent: 'Edit event',
         areYouSure: 'Are you sure you want to delete this event?',
         noEvents: 'No events found.',
         table: {
@@ -29,10 +34,14 @@ const i18n = createI18n({
     si: {
       error: 'Prišlo je do napake. Poskusite znova.',
       loading: 'Pridobivanje podatkov...',
+      delete: 'Izbriši',
+      cancel: 'Prekliči',
+      save: 'Shrani',
 
       events: {
         events: 'Dogodki',
         deleteEvent: 'Izbriši dogodek',
+        editEvent: 'Uredi dogodek',
         areYouSure: 'Ste prepričani, da želite izbrisati dogodek?',
         noEvents: 'Ni dogodkov.',
         table: {

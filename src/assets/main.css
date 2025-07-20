@@ -1,2 +1,20 @@
 @import 'tailwindcss';
 @import './base.css';
+
+/* Style button */
+button {
+  @apply py-2 px-4 rounded;
+  cursor: pointer;
+}
+
+button.danger {
+  @apply hover:bg-[#e6393948] text-[#e63939] py-2 px-4 rounded;
+}
+
+button.primary {
+  @apply hover:bg-[#d6dfff] text-[#133c73] py-2 px-4 rounded;
+}
+
+button.terciary {
+  @apply hover:bg-[#dcdcdc] text-[#818181] py-2 px-4 rounded;
+}

@@ -1,17 +1,28 @@
+<!-- TEMPLATE -->
+<!-- TEMPLATE -->
+<!-- TEMPLATE -->
+<!-- TEMPLATE -->
+<!-- TEMPLATE -->
 <template>
   <div class="p-2">
     <h2 class="mt-4 mb-3 text-center text-2xl">{{ $t('events.events') }}</h2>
 
+    <!-- LOADING INDICATOR -->
+    <!-- LOADING INDICATOR -->
     <!-- LOADING INDICATOR -->
     <div class="w-full flex flex-col items-center justify-center min-h-[50vh]" v-if="loading">
       {{ $t('loading') }}
     </div>
 
     <!-- ERROR INDICATOR -->
+    <!-- ERROR INDICATOR -->
+    <!-- ERROR INDICATOR -->
     <div class="w-full flex flex-col items-center justify-center min-h-[50vh]" v-else-if="error">
       {{ error }}
     </div>
 
+    <!-- NO EVENTS INDICATOR -->
+    <!-- NO EVENTS INDICATOR -->
     <!-- NO EVENTS INDICATOR -->
     <div
       class="w-full flex flex-col items-center justify-center min-h-[50vh]"
@@ -20,6 +31,8 @@
       {{ $t('events.noEvents') }}
     </div>
 
+    <!-- EVENTS LISTED -->
+    <!-- EVENTS LISTED -->
     <!-- EVENTS LISTED -->
     <div class="w-full flex flex-col items-center justify-center min-h-[50vh]" v-else>
       <table>
@@ -47,6 +60,11 @@
   </div>
 </template>
 
+<!-- SCRIPT -->
+<!-- SCRIPT -->
+<!-- SCRIPT -->
+<!-- SCRIPT -->
+<!-- SCRIPT -->
 <script lang="ts">
 import type { paths } from '../types/api-types'
 
@@ -97,6 +115,11 @@ export default {
 }
 </script>
 
+<!-- STYLES -->
+<!-- STYLES -->
+<!-- STYLES -->
+<!-- STYLES -->
+<!-- STYLES -->
 <style scoped>
 /* Style table */
 table {
