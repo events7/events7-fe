@@ -21,7 +21,7 @@
     </div>
 
     <!-- EVENTS LISTED -->
-    <div class="min-h-[50vh]" v-else>
+    <div class="w-full flex flex-col items-center justify-center min-h-[50vh]" v-else>
       <table>
         <thead>
           <tr>
@@ -39,7 +39,7 @@
             <td>{{ event.name }}</td>
             <td>{{ event.description }}</td>
             <td>{{ capitalize(event.type) }}</td>
-            <td>{{ event.priority }}</td>
+            <td class="!text-center">{{ event.priority }}</td>
           </tr>
         </tbody>
       </table>
@@ -129,10 +129,10 @@ th:last-child {
 }
 
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #fff8f8;
 }
 
 tr:hover {
-  background-color: #ddd;
+  background-color: #fbdddd;
 }
 </style>

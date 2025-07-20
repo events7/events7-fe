@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/Events.vue'
+import Events from '../components/Events.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <Events />
   </main>
 </template>
