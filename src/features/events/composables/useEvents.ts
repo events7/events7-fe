@@ -2,7 +2,7 @@ import i18n from '@/i18n'
 import type { components, paths } from '@/types/api-types'
 import { ref, type Ref } from 'vue'
 
-type EventType = NonNullable<
+export type EventType = NonNullable<
   paths['/v1/api/events/{id}']['get']['responses']['200']['content']['application/json']['data']
 >
 type EventList = EventType[]
@@ -20,7 +20,8 @@ type EventUpdateDto =
 type EventUpdateResponse =
   paths['/v1/api/events/{id}']['patch']['responses']['200']['content']['application/json']
 
-type EventCreateDto = paths['/v1/api/events']['post']['requestBody']['content']['application/json']
+export type EventCreateDto =
+  paths['/v1/api/events']['post']['requestBody']['content']['application/json']
 
 export function useEvents() {
   const { t } = i18n.global

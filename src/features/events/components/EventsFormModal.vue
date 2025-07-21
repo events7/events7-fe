@@ -1,25 +1,26 @@
 <script setup lang="ts">
-import type { paths } from '@/types/api-types'
-import { computed } from 'vue'
+import ModalComponent from '@/components/ModalComponent.vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { EventCreateDto, EventType } from '../composables/useEvents'
 
 const { t } = useI18n()
 
 const props = defineProps<{
   isEdit: boolean
-  visible: boolean
-  modelValue:
-    | paths['/v1/api/events']['post']['requestBody']['content']['application/json']
-    | paths['/v1/api/events/{id}']['get']['responses']['200']['content']['application/json']['data']
+
+  modelValue: NonNullable<EventCreateDto | EventType>
   loading: boolean
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: any): void
-  (e: 'close'): void
-  (e: 'save'): void
+  (e: 'cancel'): void
+  (e: 'save', entry: EventCreateDto): void
   (e: 'delete'): void
 }>()
+
+// Clone the modelValue to avoid mutating parent directly
+const localEvent = ref({ ...props.modelValue })
 
 const formTitle = computed(() => (props.isEdit ? t('events.editEvent') : t('events.newEvent')))
 </script>
@@ -27,9 +28,8 @@ const formTitle = computed(() => (props.isEdit ? t('events.editEvent') : t('even
 <template>
   <ModalComponent
     :allowBackdrop="false"
-    v-if="visible"
-    @close="emit('close')"
-    @save="emit('save')"
+    @close="emit('cancel')"
+    @save="emit('save', localEvent)"
     :loading="loading"
   >
     <div>
@@ -39,22 +39,24 @@ const formTitle = computed(() => (props.isEdit ? t('events.editEvent') : t('even
       <div class="flex flex-col">
         <!-- add labelrs -->
 
-        <!-- <label for="name">{{ $t('events.table.name') }}</label>
-        <input required type="text" id="name" v-model="selectedEventDto.name" />
+        <label for="name">{{ $t('events.table.name') }}</label>
+        <input required type="text" id="name" v-model="localEvent.name" />
 
         <label required for="description">{{ $t('events.table.description') }}</label>
-        <input type="text" id="description" v-model="selectedEventDto.description" />
+        <input type="text" id="description" v-model="localEvent.description" />
 
         <label required for="priority">{{ $t('events.table.priority') }}</label>
-        <input min="1" max="10" type="number" id="priority" v-model="selectedEventDto.priority" />
+        <input min="1" max="10" type="number" id="priority" v-model="localEvent.priority" />
 
         <label for="type">{{ $t('events.table.type') }}</label>
-        <select required id="type" v-model="selectedEventDto.type">
+        <select required id="type" v-model="localEvent.type">
           <option value="crosspromo">crosspromo</option>
           <option value="liveops">liveops</option>
           <option value="app">app</option>
           <option value="ads">ads</option>
-        </select> -->
+        </select>
+
+        <!-- DELETE BUTTON -->
         <div v-if="isEdit" class="flex justify-center">
           <button
             id="modal-delete-button"
