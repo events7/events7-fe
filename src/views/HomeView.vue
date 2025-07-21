@@ -59,7 +59,6 @@ function onUpdate() {
     priority: selectedEventDto.value.priority,
     type: selectedEventDto.value.type,
   }).then((res) => {
-    debugger
     if (!res?.success) return
 
     // toast
@@ -203,11 +202,6 @@ function onCreate() {
   </main>
 </template>
 
-<!-- STYLES -->
-<!-- STYLES -->
-<!-- STYLES -->
-<!-- STYLES -->
-<!-- STYLES -->
 <style scoped>
 input[type='text'],
 input[type='number'],
