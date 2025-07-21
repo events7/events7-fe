@@ -13,7 +13,8 @@ app.use(i18n)
 app.use(router)
 
 app.use(Vue3Toastify, {
-  icon: '✅',
+  autoClose: 2300,
+  hideProgressBar: true,
 } as ToastContainerOptions)
 
 app.mount('#app')
