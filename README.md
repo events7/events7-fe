@@ -51,7 +51,9 @@ npm run generate:types
 
 ## Assumptions
 
-1. ...
+1. I assumed that there is no need for mobile version (it may work but is not perfect).
+
+2. ...
 
 ## Stay in touch
 

@@ -45,7 +45,10 @@ export function useEvents() {
    * @param id
    * @returns
    */
-  const deleteEvent = async (id: string): Promise<EventDeleteResponse | null> => {
+  const deleteEvent = async (
+    id: string,
+    fieldErrors?: Record<string, string>,
+  ): Promise<EventDeleteResponse | null> => {
     // check for confirmation
     const confirmed = window.confirm(t('events.areYouSure'))
     if (!confirmed) return null
@@ -62,7 +65,7 @@ export function useEvents() {
       // send request
       const res = await fetch(url, { method: 'DELETE' })
 
-      return checkResponseStatus<EventDeleteResponse>(res, loadingDelete, errorDelete)
+      return checkResponseStatus<EventDeleteResponse>(res, loadingDelete, errorDelete, fieldErrors)
     } catch (err) {
       console.error(err)
       alert(t('error'))
@@ -74,6 +77,7 @@ export function useEvents() {
   const updateEvent = async (
     id: NonNullable<EventType>['id'],
     dto: EventUpdateDto,
+    fieldErrors: Record<string, string>,
   ): Promise<EventUpdateResponse | null> => {
     // set loading
     loadingUpdate.value = true
@@ -90,7 +94,7 @@ export function useEvents() {
         body: JSON.stringify(dto),
       })
 
-      return checkResponseStatus<EventUpdateResponse>(res, loadingUpdate, errorUpdate)
+      return checkResponseStatus<EventUpdateResponse>(res, loadingUpdate, errorUpdate, fieldErrors)
     } catch (err) {
       console.error(err)
       alert(t('error'))
@@ -99,7 +103,7 @@ export function useEvents() {
     }
   }
 
-  const createEvent = async (dto: EventCreateDto) => {
+  const createEvent = async (dto: EventCreateDto, fieldErrors: Record<string, string>) => {
     // set loading
     loadingCreate.value = true
     errorOnCreate.value = null
@@ -115,7 +119,12 @@ export function useEvents() {
         body: JSON.stringify(dto),
       })
 
-      return checkResponseStatus<EventUpdateResponse>(res, loadingCreate, errorOnCreate)
+      return checkResponseStatus<EventUpdateResponse>(
+        res,
+        loadingCreate,
+        errorOnCreate,
+        fieldErrors,
+      )
     } catch (err) {
       console.error(err)
       alert(t('error'))
@@ -153,7 +162,12 @@ export function useEvents() {
     }
   }
 
-  const checkResponseStatus = async <T>(res: Response, loadingRef: Ref, errorRef: Ref) => {
+  const checkResponseStatus = async <T>(
+    res: Response,
+    loadingRef: Ref,
+    errorRef: Ref,
+    fieldErrors?: Record<string, string>,
+  ) => {
     switch (res.status) {
       case 201:
         const json201 = (await res.json()) as T
@@ -172,6 +186,10 @@ export function useEvents() {
         const json400 = (await res.json()) as components['schemas']['BadRequestResponseType']
 
         console.log('todo json400', json400)
+
+        if (fieldErrors) {
+          applyBackendErrors(fieldErrors, json400.errors)
+        }
 
         loadingRef.value = false
         errorRef.value = null
@@ -224,4 +242,16 @@ export function useEvents() {
     updateEvent,
     createEvent,
   }
+}
+
+function applyBackendErrors(
+  fieldErrors: Record<string, string>,
+  errorResponse: components['schemas']['BadRequestResponseTypeError'][],
+) {
+  // Clear previous errors
+  Object.keys(fieldErrors).forEach((key) => delete fieldErrors[key])
+
+  errorResponse.forEach(({ field, errors }) => {
+    fieldErrors[field] = errors[0]
+  })
 }

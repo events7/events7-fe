@@ -5,7 +5,8 @@ import {
   type EventCreateDto,
   type EventType,
 } from '@/features/events/composables/useEvents'
-import { ref, type Ref } from 'vue'
+import { reactive, ref, type Ref } from 'vue'
+import { toast, type ToastOptions } from 'vue3-toastify'
 import EventsFormModal from './components/EventsFormModal.vue'
 
 const { loadingDelete, deleteEvent, updateEvent, loadingUpdate, createEvent, loadingCreate } =
@@ -19,24 +20,29 @@ const createEventDto: Ref<EventCreateDto> = ref({
   identification: '',
   name: '',
   description: '',
-  type: 'ads',
+  type: 'app',
   priority: 1,
 })
+
+const fieldErrors = reactive<Record<string, string>>({})
 
 const eventsKey = ref(0) // Key to force reload
 
 function onDelete() {
+  clearFieldErrors()
+
   const id = selectedEventDto.value?.id
 
   if (id == undefined) {
     return
   }
 
-  deleteEvent(id).then((res) => {
+  deleteEvent(id, fieldErrors).then((res) => {
     if (!res?.success) return
 
-    // toast
-    // TODO
+    toast(res.message, {
+      position: toast.POSITION.BOTTOM_CENTER,
+    } as ToastOptions)
 
     showEditModal.value = false
     eventsKey.value += 1 // Increment key to force reload Events
@@ -47,18 +53,24 @@ function onUpdate(data: EventCreateDto) {
   if (selectedEventDto.value === null) {
     return
   }
+  clearFieldErrors()
 
-  updateEvent(selectedEventDto.value.id, {
-    identification: data.identification,
-    description: data.description,
-    name: data.name,
-    priority: data.priority,
-    type: data.type,
-  }).then((res) => {
+  updateEvent(
+    selectedEventDto.value.id,
+    {
+      identification: data.identification,
+      description: data.description,
+      name: data.name,
+      priority: data.priority,
+      type: data.type,
+    },
+    fieldErrors,
+  ).then((res) => {
     if (!res?.success) return
 
-    // toast
-    // TODO
+    toast(res.message, {
+      position: toast.POSITION.BOTTOM_CENTER,
+    } as ToastOptions)
 
     showEditModal.value = false
     eventsKey.value += 1 // Increment key to force reload Events
@@ -66,15 +78,22 @@ function onUpdate(data: EventCreateDto) {
 }
 
 function onCreate(data: EventCreateDto) {
-  createEvent(data).then((res) => {
+  clearFieldErrors()
+
+  createEvent(data, fieldErrors).then((res) => {
     if (!res?.success) return
 
-    // toast
-    // TODO
+    toast(res.message, {
+      position: toast.POSITION.BOTTOM_CENTER,
+    } as ToastOptions)
 
     showCreateModal.value = false
     eventsKey.value += 1 // Increment key to force reload Events
   })
+}
+
+function clearFieldErrors() {
+  Object.keys(fieldErrors).forEach((key) => delete fieldErrors[key])
 }
 </script>
 
@@ -87,13 +106,15 @@ function onCreate(data: EventCreateDto) {
     :key="eventsKey"
     @event-selected="
       (event: NonNullable<EventType>) => {
+        clearFieldErrors()
         selectedEventDto = { ...event }
         showEditModal = true
       }
     "
     @create-event="
       () => {
-        createEventDto = { identification: '', name: '', description: '', type: 'ads', priority: 1 }
+        clearFieldErrors()
+        createEventDto = { identification: '', name: '', description: '', type: 'app', priority: 1 }
         showCreateModal = true
       }
     "
@@ -108,6 +129,7 @@ function onCreate(data: EventCreateDto) {
     @save="onUpdate"
     @cancel="showEditModal = false"
     @delete="onDelete()"
+    :field-errors="fieldErrors"
   />
 
   <!-- CREATE MODAL -->
@@ -119,6 +141,7 @@ function onCreate(data: EventCreateDto) {
     @save="onCreate"
     @cancel="showCreateModal = false"
     @delete="onDelete()"
+    :field-errors="fieldErrors"
   />
 </template>
 
