@@ -13,21 +13,15 @@ onMounted(() => {
 
 <template>
   <!-- LOADING INDICATOR -->
-  <!-- LOADING INDICATOR -->
-  <!-- LOADING INDICATOR -->
   <div class="w-full flex flex-col items-center justify-center min-h-[50vh]" v-if="loadingGet">
     {{ $t('loading') }}
   </div>
 
   <!-- ERROR INDICATOR -->
-  <!-- ERROR INDICATOR -->
-  <!-- ERROR INDICATOR -->
   <div class="w-full flex flex-col items-center justify-center min-h-[50vh]" v-else-if="errorGet">
     {{ errorGet }}
   </div>
 
-  <!-- NO EVENTS INDICATOR -->
-  <!-- NO EVENTS INDICATOR -->
   <!-- NO EVENTS INDICATOR -->
   <div
     class="w-full flex flex-col items-center justify-center min-h-[50vh]"
@@ -40,8 +34,6 @@ onMounted(() => {
     </button>
   </div>
 
-  <!-- EVENTS LISTED -->
-  <!-- EVENTS LISTED -->
   <!-- EVENTS LISTED -->
   <div v-else>
     <div class="flex justify-end mb-4">

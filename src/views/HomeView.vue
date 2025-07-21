@@ -1,14 +1,9 @@
 <!-- SCRIPT SETUP -->
-<!-- SCRIPT SETUP -->
-<!-- SCRIPT SETUP -->
-<!-- SCRIPT SETUP -->
-<!-- SCRIPT SETUP -->
 <script setup lang="ts">
-import { default as ModalComponent } from '@/components/ModalComponent.vue'
 import { useEvents } from '@/composables/useEvents'
 import type { paths } from '@/types/api-types'
 import { ref, type Ref } from 'vue'
-import EventsList from '../components/EventsList.vue'
+import EventsList from '../components/events/EventsList.vue'
 
 const { loadingDelete, deleteEvent, updateEvent, loadingUpdate, createEvent, loadingCreate } =
   useEvents()
@@ -117,10 +112,26 @@ function onCreate() {
       "
     />
 
-    <!-- EVENT EDIT MODAL -->
-    <!-- EVENT EDIT MODAL -->
-    <!-- EVENT EDIT MODAL -->
-    <ModalComponent
+    <EventFormModal
+      v-if="showEditModal"
+      v-model="selectedEvent"
+      :isEdit="true"
+      :loading="loadingUpdate"
+      @save="handleUpdate"
+      @cancel="showEditModal = false"
+      @delete="handleDelete"
+    />
+
+    <EventFormModal
+      v-if="showCreateModal"
+      v-model="createEventDto"
+      :isEdit="false"
+      :loading="loadingCreate"
+      @save="handleCreate"
+      @cancel="showCreateModal = false"
+    />
+
+    <!-- <ModalComponent
       :allowBackdrop="false"
       v-if="showEditModal && selectedEventDto"
       @close="showEditModal = false"
@@ -132,8 +143,6 @@ function onCreate() {
           <h2 class="text-center">{{ $t('events.editEvent') }}</h2>
         </div>
         <div class="flex flex-col">
-          <!-- add labelrs -->
-
           <label for="name">{{ $t('events.table.name') }}</label>
           <input required type="text" id="name" v-model="selectedEventDto.name" />
 
@@ -164,9 +173,6 @@ function onCreate() {
       </div>
     </ModalComponent>
 
-    <!-- EVENT CREATE MODAL -->
-    <!-- EVENT CREATE MODAL -->
-    <!-- EVENT CREATE MODAL -->
     <ModalComponent
       :allowBackdrop="false"
       v-if="showCreateModal && createEventDto"
@@ -175,7 +181,6 @@ function onCreate() {
       :loading="loadingCreate"
     >
       <div>
-        {{ loadingCreate ? 'Da' : 'Ne' }}
         <div class="mb-2">
           <h2 class="text-center">{{ $t('events.newEvent') }}</h2>
         </div>
@@ -198,7 +203,7 @@ function onCreate() {
           </select>
         </div>
       </div>
-    </ModalComponent>
+    </ModalComponent> -->
   </main>
 </template>
 
