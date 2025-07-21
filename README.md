@@ -7,7 +7,26 @@ App sketches where prepared using Excalidraw. Check and visit it here: [https://
 ## Project Setup
 
 ```sh
+# clone git repository
+git clone https://github.com/events7/events7-fe
+
+# change directory
+cd events7-fe
+
+# install correct node version (if you haven't already)
+nvm install $(cat .nvmrc)
+
+# select correct node version
+nvm use $(cat .nvmrc)
+
+# install packages
 npm install
+```
+
+### Pull git modules (shared repository)
+
+```bash
+npm run git:pull:shared
 ```
 
 ### Compile and Hot-Reload for Development
@@ -23,6 +42,8 @@ Visit the link from the console!
 ```sh
 npm run build
 ```
+
+Check extracted files in [./dist](./dist/) folder.
 
 ### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
 
@@ -40,7 +61,7 @@ npm run build
 npm run test:e2e
 ```
 
-## Generate API types
+## Usefull commands
 
 To generate API types run
 

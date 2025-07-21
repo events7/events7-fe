@@ -19,7 +19,8 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
-    "generate:types": "openapi-typescript src/shared/events7-shared/docs.json -o src/types/api-types.ts"
+    "generate:types": "openapi-typescript src/shared/events7-shared/docs.json -o src/types/api-types.ts",
+    "git:pull:shared": "git submodule update --init --recursive --remote"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
