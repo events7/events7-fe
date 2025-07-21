@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { helpers } from '@/composables/__helpers'
-import { useEvents } from '@/composables/useEvents'
+import { useEvents } from '@/features/events/composables/useEvents'
+import { helpers } from '@/helpers/__helpers'
 import { onMounted } from 'vue'
 
 const { events, loadingGet, errorGet, getEvents } = useEvents()
