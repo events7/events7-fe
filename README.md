@@ -74,8 +74,6 @@ npm run generate:types
 
 1. I assumed that there is no need for mobile version (it may work but is not perfect).
 
-2. ...
-
 ## Stay in touch
 
 - Author - [Goran Tubic](https://github.com/orangeGoran)
