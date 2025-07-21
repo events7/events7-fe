@@ -57,6 +57,7 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         CreateEventDto: {
+            identification: string;
             name: string;
             description: string;
             /** @enum {string} */
@@ -65,6 +66,7 @@ export interface components {
         };
         Event: {
             id: string;
+            identification: string;
             name: string;
             description: string;
             /** @enum {string} */
@@ -101,6 +103,7 @@ export interface components {
             data: components["schemas"]["Event"] | null;
         };
         UpdateEventDto: {
+            identification: string;
             name: string;
             description: string;
             /** @enum {string} */

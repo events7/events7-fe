@@ -46,6 +46,7 @@ onMounted(() => {
       <table class="w-full">
         <thead>
           <tr>
+            <th>{{ $t('events.table.identification') }}</th>
             <th>{{ $t('events.table.createdAt') }}</th>
             <th>{{ $t('events.table.name') }}</th>
             <th>{{ $t('events.table.description') }}</th>
@@ -56,6 +57,7 @@ onMounted(() => {
 
         <tbody>
           <tr v-for="event in events" :key="event.id" @click="$emit('event-selected', event)">
+            <td>{{ event.identification }}</td>
             <td>{{ formatDate(event.createdAt) }}</td>
             <td>{{ event.name }}</td>
             <td>

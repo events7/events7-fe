@@ -22,6 +22,7 @@ export default createI18n({
         areYouSure: 'Are you sure you want to delete this event?',
         noEvents: 'No events found.',
         table: {
+          identification: 'ID',
           createdAt: 'Created At',
           name: 'Name',
           description: 'Description',
@@ -48,6 +49,7 @@ export default createI18n({
         areYouSure: 'Ste prepričani, da želite izbrisati dogodek?',
         noEvents: 'Ni dogodkov.',
         table: {
+          identification: 'ID',
           createdAt: 'Ustvarjen',
           name: 'Ime',
           description: 'Opis',

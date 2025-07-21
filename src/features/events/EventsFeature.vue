@@ -16,6 +16,7 @@ const showCreateModal = ref(false)
 const selectedEventDto: Ref<EventType | null> = ref(null)
 
 const createEventDto: Ref<EventCreateDto> = ref({
+  identification: '',
   name: '',
   description: '',
   type: 'ads',
@@ -48,6 +49,7 @@ function onUpdate(data: EventCreateDto) {
   }
 
   updateEvent(selectedEventDto.value.id, {
+    identification: data.identification,
     description: data.description,
     name: data.name,
     priority: data.priority,
@@ -91,7 +93,7 @@ function onCreate(data: EventCreateDto) {
     "
     @create-event="
       () => {
-        createEventDto = { name: '', description: '', type: 'ads', priority: 1 }
+        createEventDto = { identification: '', name: '', description: '', type: 'ads', priority: 1 }
         showCreateModal = true
       }
     "

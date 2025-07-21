@@ -39,6 +39,9 @@ const formTitle = computed(() => (props.isEdit ? t('events.editEvent') : t('even
       <div class="flex flex-col">
         <!-- add labelrs -->
 
+        <label for="name">{{ $t('events.table.identification') }}</label>
+        <input required type="text" id="name" v-model="localEvent.identification" />
+
         <label for="name">{{ $t('events.table.name') }}</label>
         <input required type="text" id="name" v-model="localEvent.name" />
 
