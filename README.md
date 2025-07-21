@@ -4,6 +4,10 @@
 
 App sketches where prepared using Excalidraw. Check and visit it here: [https://excalidraw.com/#room=6cc309affd237a5d9391,QwrN_5QHKwhf45BxIdHWFA](https://excalidraw.com/#room=6cc309affd237a5d9391,QwrN_5QHKwhf45BxIdHWFA).
 
+## About the project
+
+This projects uses `vue3js`. For external libraries I used `tailwinddcs` and `vue3-toastify`.
+
 ## Project Setup
 
 ```sh
