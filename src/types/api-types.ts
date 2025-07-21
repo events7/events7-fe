@@ -4,279 +4,324 @@
  */
 
 export interface paths {
-  '/v1/api': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: operations['AppController_getHello_v1']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/v1/api/events': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: operations['EventsController_findAll_v1']
-    put?: never
-    post: operations['EventsController_create_v1']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/v1/api/events/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: operations['EventsController_findOne_v1']
-    put?: never
-    post?: never
-    delete: operations['EventsController_remove_v1']
-    options?: never
-    head?: never
-    patch: operations['EventsController_update_v1']
-    trace?: never
-  }
+    "/v1/api": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AppController_getHello_v1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/api/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["EventsController_findAll_v1"];
+        put?: never;
+        post: operations["EventsController_create_v1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/api/events/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["EventsController_findOne_v1"];
+        put?: never;
+        post?: never;
+        delete: operations["EventsController_remove_v1"];
+        options?: never;
+        head?: never;
+        patch: operations["EventsController_update_v1"];
+        trace?: never;
+    };
 }
-export type webhooks = Record<string, never>
+export type webhooks = Record<string, never>;
 export interface components {
-  schemas: {
-    CreateEventDto: {
-      name: string
-      description: string
-      /** @enum {string} */
-      type: 'crosspromo' | 'liveops' | 'app' | 'ads'
-      priority: number
-    }
-    Event: {
-      id: string
-      name: string
-      description: string
-      /** @enum {string} */
-      type: 'crosspromo' | 'liveops' | 'app' | 'ads'
-      priority: number
-      /** Format: date-time */
-      createdAt: string
-      /** Format: date-time */
-      updatedAt: string
-    }
-    BadRequestResponseType: {
-      statusCode: number
-      message: string[]
-      error: string
-    }
-    ForbiddenResponseType: {
-      statusCode: number
-      message: string
-      error: string
-    }
-    UpdateEventDto: {
-      name: string
-      description: string
-      /** @enum {string} */
-      type: 'crosspromo' | 'liveops' | 'app' | 'ads'
-      priority: number
-    }
-    SuccessResponseType: {
-      success: boolean
-    }
-  }
-  responses: never
-  parameters: never
-  requestBodies: never
-  headers: never
-  pathItems: never
+    schemas: {
+        CreateEventDto: {
+            name: string;
+            description: string;
+            /** @enum {string} */
+            type: "crosspromo" | "liveops" | "app" | "ads";
+            priority: number;
+        };
+        Event: {
+            id: string;
+            name: string;
+            description: string;
+            /** @enum {string} */
+            type: "crosspromo" | "liveops" | "app" | "ads";
+            priority: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        SuccessResponseTypeEventPost: {
+            success: boolean;
+            message: string;
+            data: components["schemas"]["Event"];
+        };
+        BadRequestResponseTypeError: {
+            field: string;
+            errors: string[];
+        };
+        BadRequestResponseType: {
+            /** @default 400 */
+            statusCode: number;
+            message: string;
+            errors: components["schemas"]["BadRequestResponseTypeError"][];
+        };
+        ForbiddenResponseType: {
+            statusCode: number;
+            message: string;
+            error: string;
+        };
+        SuccessResponseTypeEventGetOne: {
+            success: boolean;
+            message: string;
+            data: components["schemas"]["Event"] | null;
+        };
+        UpdateEventDto: {
+            name: string;
+            description: string;
+            /** @enum {string} */
+            type: "crosspromo" | "liveops" | "app" | "ads";
+            priority: number;
+        };
+        SuccessResponseTypeEventPatch: {
+            success: boolean;
+            message: string;
+            data: components["schemas"]["Event"];
+        };
+        NotFoundExceptionType: {
+            /** @default Entry not found */
+            message: string;
+            /** @default 404 */
+            statusCode: number;
+        };
+        SuccessResponseTypeEventDelete: {
+            success: boolean;
+            message: string;
+        };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
-export type $defs = Record<string, never>
+export type $defs = Record<string, never>;
 export interface operations {
-  AppController_getHello_v1: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-    }
-  }
-  EventsController_findAll_v1: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Event'][]
-        }
-      }
-    }
-  }
-  EventsController_create_v1: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['CreateEventDto']
-      }
-    }
-    responses: {
-      /** @description Event created successfully. Returns the created event */
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Event']
-        }
-      }
-      /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['BadRequestResponseType']
-        }
-      }
-      /** @description Forbidden resource. Try again later or check with adminstrators that you have correct permissions */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ForbiddenResponseType']
-        }
-      }
-    }
-  }
-  EventsController_findOne_v1: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Event found. Returns the event */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['Event']
-        }
-      }
-      /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['BadRequestResponseType']
-        }
-      }
-    }
-  }
-  EventsController_remove_v1: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Returns true if deleted successfully */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['SuccessResponseType']
-        }
-      }
-      /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['BadRequestResponseType']
-        }
-      }
-    }
-  }
-  EventsController_update_v1: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['UpdateEventDto']
-      }
-    }
-    responses: {
-      /** @description Returns true if updated successfully */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['SuccessResponseType']
-        }
-      }
-      /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['BadRequestResponseType']
-        }
-      }
-    }
-  }
+    AppController_getHello_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    EventsController_findAll_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Event"][];
+                };
+            };
+        };
+    };
+    EventsController_create_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateEventDto"];
+            };
+        };
+        responses: {
+            /** @description Event created successfully. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuccessResponseTypeEventPost"];
+                };
+            };
+            /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BadRequestResponseType"];
+                };
+            };
+            /** @description Forbidden resource. Try again later or check with adminstrators that you have correct permissions */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ForbiddenResponseType"];
+                };
+            };
+        };
+    };
+    EventsController_findOne_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returns the event if found or null if not found */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuccessResponseTypeEventGetOne"];
+                };
+            };
+            /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BadRequestResponseType"];
+                };
+            };
+        };
+    };
+    EventsController_remove_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Returns true if deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuccessResponseTypeEventDelete"];
+                };
+            };
+            /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BadRequestResponseType"];
+                };
+            };
+            /** @description Entry not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundExceptionType"];
+                };
+            };
+        };
+    };
+    EventsController_update_v1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateEventDto"];
+            };
+        };
+        responses: {
+            /** @description Updates an event. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuccessResponseTypeEventPatch"];
+                };
+            };
+            /** @description Bad request. Usually triggered if the request body or provided parameter is not valid */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BadRequestResponseType"];
+                };
+            };
+            /** @description Entry not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotFoundExceptionType"];
+                };
+            };
+        };
+    };
 }

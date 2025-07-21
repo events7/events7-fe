@@ -1,76 +1,29 @@
-<!-- SCRIPT -->
-<!-- SCRIPT -->
-<!-- SCRIPT -->
-<!-- SCRIPT -->
-<!-- SCRIPT -->
-<script lang="ts">
-import type { paths } from '../types/api-types'
+<script setup lang="ts">
+import { helpers } from '@/composables/__helpers'
+import { useEvents } from '@/composables/useEvents'
+import { onMounted } from 'vue'
 
-export default {
-  name: 'EventsComponent',
-  data(): {
-    events: paths['/v1/api/events']['get']['responses']['200']['content']['application/json']
-    loading: boolean
-    error: string | null
-  } {
-    return {
-      events: [],
-      loading: true,
-      error: null,
-    }
-  },
-  methods: {
-    formatDate: (value: string) => {
-      if (!value) return ''
-      const date = new Date(value)
-      return date.toLocaleString('sl-SI', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      })
-    },
-  },
-  computed: { capitalize: () => (value: string) => value.toLocaleUpperCase() },
-  mounted() {
-    const path: keyof paths = '/v1/api/events'
+const { events, loadingGet, errorGet, getEvents } = useEvents()
+const { formatDate, capitalize } = helpers()
 
-    // get url from enviroment
-    const url = import.meta.env.VITE_API_URL
-    fetch(url + path)
-      .then((response) => response.json())
-      .then((data) => {
-        this.events = data
-        this.loading = false
-      })
-      .catch((error) => {
-        console.error(error)
-        this.error = this.$t('error')
-        this.loading = false
-      })
-  },
-}
+onMounted(() => {
+  getEvents()
+})
 </script>
 
-<!-- TEMPLATE -->
-<!-- TEMPLATE -->
-<!-- TEMPLATE -->
-<!-- TEMPLATE -->
-<!-- TEMPLATE -->
 <template>
   <!-- LOADING INDICATOR -->
   <!-- LOADING INDICATOR -->
   <!-- LOADING INDICATOR -->
-  <div class="w-full flex flex-col items-center justify-center min-h-[50vh]" v-if="loading">
+  <div class="w-full flex flex-col items-center justify-center min-h-[50vh]" v-if="loadingGet">
     {{ $t('loading') }}
   </div>
 
   <!-- ERROR INDICATOR -->
   <!-- ERROR INDICATOR -->
   <!-- ERROR INDICATOR -->
-  <div class="w-full flex flex-col items-center justify-center min-h-[50vh]" v-else-if="error">
-    {{ error }}
+  <div class="w-full flex flex-col items-center justify-center min-h-[50vh]" v-else-if="errorGet">
+    {{ errorGet }}
   </div>
 
   <!-- NO EVENTS INDICATOR -->
@@ -82,7 +35,7 @@ export default {
   >
     {{ $t('events.noEvents') }}
 
-    <button class="primary mt-4" @click="$emit('create-event')">
+    <button id="events-add-new-event" class="primary mt-4" @click="$emit('create-event')">
       {{ $t('events.addNewEvent') }}
     </button>
   </div>
@@ -92,7 +45,7 @@ export default {
   <!-- EVENTS LISTED -->
   <div v-else>
     <div class="flex justify-end mb-4">
-      <button class="primary border" @click="$emit('create-event')">
+      <button id="events-add-new-event" class="primary border" @click="$emit('create-event')">
         {{ $t('events.addNewEvent') }}
       </button>
     </div>
@@ -125,11 +78,6 @@ export default {
   </div>
 </template>
 
-<!-- STYLES -->
-<!-- STYLES -->
-<!-- STYLES -->
-<!-- STYLES -->
-<!-- STYLES -->
 <style scoped>
 /* Style table */
 table {

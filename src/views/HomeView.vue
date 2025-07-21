@@ -5,17 +5,18 @@
 <!-- SCRIPT SETUP -->
 <script setup lang="ts">
 import { default as ModalComponent } from '@/components/ModalComponent.vue'
+import { useEvents } from '@/composables/useEvents'
 import type { paths } from '@/types/api-types'
 import { ref, type Ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import Events from '../components/EventsComponent.vue'
+import EventsList from '../components/EventsList.vue'
 
-const { t } = useI18n()
+const { loadingDelete, deleteEvent, updateEvent, loadingUpdate, createEvent, loadingCreate } =
+  useEvents()
 
 const showEditModal = ref(false)
 const showCreateModal = ref(false)
-const selectedEvent: Ref<
-  paths['/v1/api/events/{id}']['get']['responses']['200']['content']['application/json'] | null
+const selectedEventDto: Ref<
+  paths['/v1/api/events/{id}']['get']['responses']['200']['content']['application/json']['data']
 > = ref(null)
 
 const createEventDto: Ref<
@@ -27,141 +28,58 @@ const createEventDto: Ref<
   priority: 1,
 })
 
-const loading = ref(false)
 const eventsKey = ref(0) // Key to force reload
 
-function deleteEvent() {
-  const confirm = window.confirm(t('events.areYouSure'))
+function onDelete() {
+  const id = selectedEventDto.value?.id
 
-  if (confirm && selectedEvent.value) {
-    loading.value = true
-
-    const path: keyof paths = '/v1/api/events/{id}'
-
-    const url = import.meta.env.VITE_API_URL
-    fetch(url + path.replace('{id}', selectedEvent.value.id), {
-      method: 'DELETE',
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        // extract errors if available
-        const response =
-          res as paths['/v1/api/events/{id}']['delete']['responses']['400']['content']['application/json']
-
-        if (response.error && response.message && response.statusCode == 400) {
-          // instead of toast we will just alert
-          alert(response.message[0])
-
-          loading.value = false
-          return
-        }
-
-        showEditModal.value = false
-        loading.value = false
-        eventsKey.value += 1 // Increment key to force reload Events
-      })
-      .catch((error) => {
-        console.error(error)
-        loading.value = false
-        // instead of toast lets just alert
-        alert(t('error'))
-      })
-  }
-}
-
-function updateEvent() {
-  if (selectedEvent.value === null || loading.value) {
+  if (id == undefined) {
     return
   }
 
-  // set loading indicator
-  loading.value = true
+  deleteEvent(id).then((res) => {
+    if (!res?.success) return
 
-  // prepare paths
-  const path: keyof paths = '/v1/api/events/{id}'
-  const url = import.meta.env.VITE_API_URL
+    // toast
+    // TODO
 
-  // send request
-  fetch(url + path.replace('{id}', selectedEvent.value.id), {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(selectedEvent.value),
+    showEditModal.value = false
+    eventsKey.value += 1 // Increment key to force reload Events
   })
-    .then((res) => res.json())
-    .then((res) => {
-      // extract errors if available
-      const response =
-        res as paths['/v1/api/events/{id}']['patch']['responses']['400']['content']['application/json']
-
-      if (response.error && response.message && response.statusCode == 400) {
-        // instead of toast we will just alert
-        alert(response.message[0])
-
-        loading.value = false
-        return
-      }
-
-      showEditModal.value = false
-      loading.value = false
-      eventsKey.value += 1 // Increment key to force reload Events
-    })
-    .catch((error) => {
-      console.error(error)
-      loading.value = false
-      // instead of toast lets just alert
-      alert(t('error'))
-    })
 }
 
-function createEvent() {
-  // set loading indicator
-  if (loading.value) return
-  loading.value = true
+function onUpdate() {
+  if (selectedEventDto.value === null) {
+    return
+  }
 
-  // prepare paths
-  const path: keyof paths = '/v1/api/events'
-  const url = import.meta.env.VITE_API_URL
+  updateEvent(selectedEventDto.value.id, {
+    description: selectedEventDto.value.description,
+    name: selectedEventDto.value.name,
+    priority: selectedEventDto.value.priority,
+    type: selectedEventDto.value.type,
+  }).then((res) => {
+    debugger
+    if (!res?.success) return
 
-  // send request
-  fetch(url + path, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(createEventDto.value),
+    // toast
+    // TODO
+
+    showEditModal.value = false
+    eventsKey.value += 1 // Increment key to force reload Events
   })
-    .then((res) => res.json())
-    .then((res) => {
-      // extract errors if available
-      const response =
-        res as paths['/v1/api/events']['post']['responses']['400']['content']['application/json']
+}
 
-      if (response.error && response.message && response.statusCode == 400) {
-        // instead of toast we will just alert
-        alert(response.message[0])
+function onCreate() {
+  createEvent(createEventDto.value).then((res) => {
+    if (!res?.success) return
 
-        loading.value = false
-        return
-      } else if (response.error && response.message && response.statusCode == 403) {
-        // instead of toast we will just alert
-        alert(t('error403'))
+    // toast
+    // TODO
 
-        loading.value = false
-        return
-      }
-
-      showCreateModal.value = false
-      loading.value = false
-      eventsKey.value += 1 // Increment key to force reload Events
-    })
-    .catch((error) => {
-      console.error(error)
-      loading.value = false
-      // instead of toast lets just alert
-      alert(t('error'))
-    })
+    showCreateModal.value = false
+    eventsKey.value += 1 // Increment key to force reload Events
+  })
 }
 </script>
 
@@ -171,7 +89,7 @@ function createEvent() {
 <!-- TEMPLATE -->
 <!-- TEMPLATE -->
 <template>
-  <main class="container mx-auto p-2">
+  <main id="home-view" class="container mx-auto p-2">
     <!-- TITLE -->
     <!-- TITLE -->
     <!-- TITLE -->
@@ -180,13 +98,15 @@ function createEvent() {
     <!-- EVENTS -->
     <!-- EVENTS -->
     <!-- EVENTS -->
-    <Events
+    <EventsList
       :key="eventsKey"
       @event-selected="
         (
-          event: paths['/v1/api/events/{id}']['get']['responses']['200']['content']['application/json'],
+          event: NonNullable<
+            paths['/v1/api/events/{id}']['get']['responses']['200']['content']['application/json']['data']
+          >,
         ) => {
-          selectedEvent = { ...event }
+          selectedEventDto = { ...event }
           showEditModal = true
         }
       "
@@ -203,10 +123,10 @@ function createEvent() {
     <!-- EVENT EDIT MODAL -->
     <ModalComponent
       :allowBackdrop="false"
-      v-if="showEditModal && selectedEvent"
+      v-if="showEditModal && selectedEventDto"
       @close="showEditModal = false"
-      @save="updateEvent"
-      :loading="loading"
+      @save="onUpdate"
+      :loading="loadingDelete || loadingUpdate"
     >
       <div>
         <div class="mb-2">
@@ -216,23 +136,28 @@ function createEvent() {
           <!-- add labelrs -->
 
           <label for="name">{{ $t('events.table.name') }}</label>
-          <input required type="text" id="name" v-model="selectedEvent.name" />
+          <input required type="text" id="name" v-model="selectedEventDto.name" />
 
           <label required for="description">{{ $t('events.table.description') }}</label>
-          <input type="text" id="description" v-model="selectedEvent.description" />
+          <input type="text" id="description" v-model="selectedEventDto.description" />
 
           <label required for="priority">{{ $t('events.table.priority') }}</label>
-          <input min="1" max="10" type="number" id="priority" v-model="selectedEvent.priority" />
+          <input min="1" max="10" type="number" id="priority" v-model="selectedEventDto.priority" />
 
           <label for="type">{{ $t('events.table.type') }}</label>
-          <select required id="type" v-model="selectedEvent.type">
+          <select required id="type" v-model="selectedEventDto.type">
             <option value="crosspromo">crosspromo</option>
             <option value="liveops">liveops</option>
             <option value="app">app</option>
             <option value="ads">ads</option>
           </select>
           <div class="flex justify-center">
-            <button @click="deleteEvent()" :disabled="loading" class="cursor-pointer danger">
+            <button
+              id="modal-delete-button"
+              @click="onDelete()"
+              :disabled="loadingDelete || loadingUpdate"
+              class="cursor-pointer danger"
+            >
               {{ $t('delete') }}
             </button>
           </div>
@@ -240,23 +165,22 @@ function createEvent() {
       </div>
     </ModalComponent>
 
-    <!-- EVENT EDIT MODAL -->
-    <!-- EVENT EDIT MODAL -->
-    <!-- EVENT EDIT MODAL -->
+    <!-- EVENT CREATE MODAL -->
+    <!-- EVENT CREATE MODAL -->
+    <!-- EVENT CREATE MODAL -->
     <ModalComponent
       :allowBackdrop="false"
       v-if="showCreateModal && createEventDto"
       @close="showCreateModal = false"
-      @save="createEvent"
-      :loading="loading"
+      @save="onCreate"
+      :loading="loadingCreate"
     >
       <div>
+        {{ loadingCreate ? 'Da' : 'Ne' }}
         <div class="mb-2">
           <h2 class="text-center">{{ $t('events.newEvent') }}</h2>
         </div>
         <div class="flex flex-col">
-          <!-- add labelrs -->
-
           <label for="name">{{ $t('events.table.name') }}</label>
           <input type="text" id="name" v-model="createEventDto.name" />
 

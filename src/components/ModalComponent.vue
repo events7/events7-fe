@@ -1,41 +1,3 @@
-<!-- TEMPLATE -->
-<!-- TEMPLATE -->
-<!-- TEMPLATE -->
-<!-- TEMPLATE -->
-<!-- TEMPLATE -->
-<template>
-  <div class="modal-backdrop" @click.self="allowBackdrop && close">
-    <div class="modal-content relative">
-      <div class="cursor-pointer absolute top-[1.5rem] right-[1.5rem]" @click="close">X</div>
-      <slot />
-
-      <div class="mt-4"></div>
-
-      <div class="flex justify-between">
-        <button :disabled="loading" class="terciary" @click="close">{{ $t('cancel') }}</button>
-
-        <button :disabled="loading" class="primary" @click="save">{{ $t('save') }}</button>
-      </div>
-    </div>
-  </div>
-</template>
-
-<!-- SCRIPT -->
-<!-- SCRIPT -->
-<!-- SCRIPT -->
-<!-- SCRIPT -->
-<!-- SCRIPT -->
-<script lang="ts">
-export default {
-  name: 'ModalComponent',
-}
-</script>
-
-<!-- SCRIPT SETUP -->
-<!-- SCRIPT SETUP -->
-<!-- SCRIPT SETUP -->
-<!-- SCRIPT SETUP -->
-<!-- SCRIPT SETUP -->
 <script lang="ts" setup>
 defineProps({
   loading: {
@@ -49,20 +11,39 @@ defineProps({
 })
 
 const emit = defineEmits(['close', 'save'])
-function close() {
-  emit('close')
-}
-
-function save() {
-  emit('save')
-}
 </script>
 
-<!-- STYLES -->
-<!-- STYLES -->
-<!-- STYLES -->
-<!-- STYLES -->
-<!-- STYLES -->
+<template>
+  <div id="modal" class="modal-backdrop" @click.self="allowBackdrop && emit('close')">
+    <div class="modal-content relative">
+      <!-- CLOSE BUTTON -->
+      <div class="cursor-pointer absolute top-[1.5rem] right-[1.5rem]" @click="emit('close')">
+        X
+      </div>
+
+      <!-- CONTENT -->
+      <slot />
+
+      <!-- FOOTER -->
+      <div class="mt-4"></div>
+      <div class="flex justify-between">
+        <button
+          id="modal-cancel-button"
+          :disabled="loading"
+          class="terciary"
+          @click="emit('close')"
+        >
+          {{ $t('cancel') }}
+        </button>
+
+        <button id="modal-save-button" :disabled="loading" class="primary" @click="emit('save')">
+          {{ $t('save') }}
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .modal-backdrop {
   position: fixed;
